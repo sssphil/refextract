@@ -1401,15 +1401,7 @@ def clean_pdf_file(filename):
             return
         end = mmfile.rfind(b'%%EOF')
         offset = len(b'%%EOF')
-        if start > 0:
-            LOGGER.debug('moving and truncating')
-            mmfile.move(0, start, end + offset - start)
-            mmfile.resize(end + offset - start)
-            mmfile.flush()
-        elif end > 0 and end + offset != mmfile.size():
-            LOGGER.debug('truncating only')
-            mmfile.resize(end + offset - start)
-            mmfile.flush()
+        mmfile.flush(start, end + offset - start)
 
 
 def get_plaintext_document_body(fpath, keep_layout=False):
